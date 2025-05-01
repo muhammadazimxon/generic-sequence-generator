@@ -14,9 +14,7 @@ namespace GenericSequenceGenerator
 
         public override int GetNext()
         {
-            int next = this.Previous + this.Current;
-            this.UpdateState(next);
-            return next;
+            return this.Previous + this.Current;
         }
     }
 }

@@ -15,15 +15,18 @@ namespace GenericSequenceGenerator
 
         public int Count { get; private set; }
 
-        public T Next => this.GetNext();
+        public T Next
+        {
+            get
+            {
+                T next = this.GetNext();
+                this.Previous = this.Current;
+                this.Current = next;
+                this.Count += 1;
+                return next;
+            }
+        }
 
         public abstract T GetNext();
-
-        protected void UpdateState(T newCurrent)
-        {
-            this.Previous = this.Current;
-            this.Current = newCurrent;
-            this.Count++;
-        }
     }
 }

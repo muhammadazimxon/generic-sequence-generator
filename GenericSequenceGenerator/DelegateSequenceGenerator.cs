@@ -1,20 +1,20 @@
 namespace GenericSequenceGenerator
 {
+    public delegate T SequenceRule<T>(T prev, T curr);
+
     public class DelegateSequenceGenerator<T> : SequenceGenerator<T>
     {
-        private readonly Func<T, T, T> nextElementRule;
+        private readonly SequenceRule<T> rule;
 
-        public DelegateSequenceGenerator(T first, T second, Func<T, T, T> rule)
+        public DelegateSequenceGenerator(T first, T second, SequenceRule<T> rule)
             : base(first, second)
         {
-            this.nextElementRule = rule;
+            this.rule = rule;
         }
 
         public override T GetNext()
         {
-            var next = this.nextElementRule(this.Previous, this.Current);
-            this.UpdateState(next);
-            return this.Current;
+            return this.rule(this.Previous, this.Current);
         }
     }
 }
